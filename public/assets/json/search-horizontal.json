@@ -1,0 +1,36 @@
+{
+  "pages": [
+    {
+      "name": "Tableau de bord (Statistiques & Graphiques)",
+      "icon": "ti-smart-home",
+      "url": "/"
+    },
+    {
+      "name": "Gestion des Fonctionnaires",
+      "icon": "ti-users",
+      "url": "/user"
+    },
+    {
+      "name": "Ajouter un Fonctionnaire",
+      "icon": "ti-user-plus",
+      "url": "/users/create"
+    },
+    {
+      "name": "Gestion des Machines Virtuelles",
+      "icon": "ti-device-laptop",
+      "url": "/mv"
+    },
+    {
+      "name": "Créer une Machine Virtuelle",
+      "icon": "ti-square-plus",
+      "url": "/mv/form"
+    },
+    {
+      "name": "Mon Profil Administrateur",
+      "icon": "ti-user-circle",
+      "url": "/users/1/admin"
+    }
+  ],
+  "files": [],
+  "members": []
+}
