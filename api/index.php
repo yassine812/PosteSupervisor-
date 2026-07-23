@@ -29,13 +29,14 @@ putenv('LOG_CHANNEL=stderr');    // Log to stdout/stderr for Vercel console
 
 // 3. SQLite writeable database copy
 $dbPath = '/tmp/database.sqlite';
-if (!file_exists($dbPath)) {
-    $source = __DIR__ . '/../database/database.sqlite';
-    if (file_exists($source)) {
+$source = __DIR__ . '/../database/database.sqlite';
+if (file_exists($source)) {
+    if (!file_exists($dbPath) || filesize($dbPath) === 0 || filemtime($source) > filemtime($dbPath)) {
         copy($source, $dbPath);
-    } else {
-        touch($dbPath);
+        chmod($dbPath, 0666);
     }
+} else if (!file_exists($dbPath)) {
+    touch($dbPath);
 }
 putenv('DB_CONNECTION=sqlite');
 putenv("DB_DATABASE=" . $dbPath);
