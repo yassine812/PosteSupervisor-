@@ -30,11 +30,25 @@ putenv('LOG_CHANNEL=stderr');    // Log to stdout/stderr for Vercel console
 // 3. SQLite writeable database copy
 $dbPath = '/tmp/database.sqlite';
 $source = __DIR__ . '/../database/database.sqlite';
-if (file_exists($source)) {
-    if (!file_exists($dbPath) || filesize($dbPath) === 0 || filemtime($source) > filemtime($dbPath)) {
-        copy($source, $dbPath);
-        chmod($dbPath, 0666);
+$depId = getenv('VERCEL_DEPLOYMENT_ID') ?: 'local';
+$depIdPath = '/tmp/vercel_dep_id.txt';
+
+$needsCopy = false;
+if (!file_exists($dbPath)) {
+    $needsCopy = true;
+} else if (file_exists($depIdPath)) {
+    $lastDepId = trim(file_get_contents($depIdPath));
+    if ($lastDepId !== $depId) {
+        $needsCopy = true;
     }
+} else {
+    $needsCopy = true;
+}
+
+if ($needsCopy && file_exists($source)) {
+    copy($source, $dbPath);
+    chmod($dbPath, 0666);
+    file_put_contents($depIdPath, $depId);
 } else if (!file_exists($dbPath)) {
     touch($dbPath);
 }
