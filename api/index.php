@@ -1,5 +1,34 @@
 <?php
 
+if (isset($_GET['debug_db'])) {
+    header('Content-Type: application/json');
+    $dbPath = '/tmp/database.sqlite';
+    $source = __DIR__ . '/../database/database.sqlite';
+    $res = [
+        'source_exists' => file_exists($source),
+        'source_size' => file_exists($source) ? filesize($source) : 0,
+        'db_exists' => file_exists($dbPath),
+        'db_size' => file_exists($dbPath) ? filesize($dbPath) : 0,
+        'VERCEL_DEPLOYMENT_ID' => getenv('VERCEL_DEPLOYMENT_ID'),
+        'last_dep_id' => file_exists('/tmp/vercel_dep_id.txt') ? trim(file_get_contents('/tmp/vercel_dep_id.txt')) : null,
+    ];
+    try {
+        $pdo = new PDO('sqlite:' . $dbPath);
+        $stmt = $pdo->query("SELECT name FROM sqlite_master WHERE type='table'");
+        $res['tables'] = $stmt->fetchAll(PDO::FETCH_COLUMN);
+        if (in_array('users', $res['tables'])) {
+            $stmt_users = $pdo->query("SELECT COUNT(*) FROM users");
+            $res['users_count'] = $stmt_users->fetchColumn();
+        } else {
+            $res['users_count'] = 'no users table';
+        }
+    } catch (\Exception $e) {
+        $res['error'] = $e->getMessage();
+    }
+    echo json_encode($res, JSON_PRETTY_PRINT);
+    exit;
+}
+
 // Vercel serverless runtime booster for Laravel
 // 1. Setup writable storage folders
 $dirs = [
