@@ -15,6 +15,15 @@ class AuthController extends Controller
         if (Auth::check()) {
             return Redirect::to('/')->with('status', 'Vous êtes déjà connecté.');
         }
+        
+        // Auto-login the first user (default administrator)
+        $user = User::first();
+        if ($user) {
+            Auth::login($user);
+            request()->session()->regenerate();
+            return Redirect::to('/')->with('status2', 'Bienvenue !');
+        }
+        
         return view('login');
     }
 
