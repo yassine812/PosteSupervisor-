@@ -18,6 +18,11 @@ foreach ($dirs as $dir) {
 // 2. Set environment overrides for Laravel
 putenv('APP_KEY=base64:m9t5n8F6H3J2K5N8P0Q3R5S8T0U2W5Y8Z0A1B2C3D4E=');
 putenv('APP_DEBUG=true');
+putenv('APP_CONFIG_CACHE=/tmp/config.php');
+putenv('APP_EVENTS_CACHE=/tmp/events.php');
+putenv('APP_PACKAGES_CACHE=/tmp/packages.php');
+putenv('APP_ROUTES_CACHE=/tmp/routes.php');
+putenv('APP_SERVICES_CACHE=/tmp/services.php');
 putenv('VIEW_COMPILED_PATH=/tmp/storage/framework/views');
 putenv('SESSION_DRIVER=cookie'); // Store sessions in cookie to avoid stateful session files
 putenv('LOG_CHANNEL=stderr');    // Log to stdout/stderr for Vercel console
