@@ -53,7 +53,7 @@ putenv('APP_PACKAGES_CACHE=/tmp/packages.php');
 putenv('APP_ROUTES_CACHE=/tmp/routes.php');
 putenv('APP_SERVICES_CACHE=/tmp/services.php');
 putenv('VIEW_COMPILED_PATH=/tmp/storage/framework/views');
-putenv('SESSION_DRIVER=cookie'); // Store sessions in cookie to avoid stateful session files
+putenv('SESSION_DRIVER=database'); // Store sessions in writeable database table
 putenv('LOG_CHANNEL=stderr');    // Log to stdout/stderr for Vercel console
 
 // 3. SQLite writeable database copy
