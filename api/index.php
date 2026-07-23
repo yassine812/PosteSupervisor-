@@ -37,6 +37,7 @@ if (!file_exists($dbPath)) {
         touch($dbPath);
     }
 }
+putenv('DB_CONNECTION=sqlite');
 putenv("DB_DATABASE=" . $dbPath);
 
 // 4. Forward execution to public/index.php
